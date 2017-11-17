@@ -1,0 +1,223 @@
+SQL> SELECT SYSTIMESTAMP
+  2  FROM DUAL
+  3  ;
+
+SYSTIMESTAMP                                                                    
+---------------------------------------------------------------------------     
+17-NOV-17 01.12.20.236749 PM +00:00                                             
+
+SQL> SELECT SYSTIMESTAMP
+  2  SELECT SYSTIMESTAMP
+  3  
+SQL> SELECT SYSTIMESTAMP(8)
+  2  FROM DUAL;
+
+SYSTIMESTAMP(8)                                                                 
+---------------------------------------------------------------------------     
+17-NOV-17 01.12.51.00397100 PM +00:00                                           
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD (D1 TIMESTAMP(8) DEFAULT SYSTEMTIMESTAMP(8));
+ADD (D1 TIMESTAMP(8) DEFAULT SYSTEMTIMESTAMP(8))
+                             *
+ERROR at line 2:
+ORA-04044: procedure, function, package, or type is not allowed here 
+
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD (D1 TIMESTAMP(8) DEFAULT SYSTTIMESTAMP(8));
+ADD (D1 TIMESTAMP(8) DEFAULT SYSTTIMESTAMP(8))
+                             *
+ERROR at line 2:
+ORA-04044: procedure, function, package, or type is not allowed here 
+
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD (D1 TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8));
+
+Table altered.
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  MODIFY (D1 TIMESTAMP(9));
+
+Table altered.
+
+SQL> DESCRIBE DEPARTAMENTO
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CD                                        NOT NULL NUMBER(2)
+ D                                                  VARCHAR2(60)
+ D1                                                 TIMESTAMP(9)
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  RENAME COLUMN D1 TO D2;
+
+Table altered.
+
+SQL> DESCRIBE DEPARTAMENTO
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CD                                        NOT NULL NUMBER(2)
+ D                                                  VARCHAR2(60)
+ D2                                                 TIMESTAMP(9)
+
+SQL> DROP COLUMN D2;
+DROP COLUMN D2
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option 
+
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  DROP COLUMN D2;
+
+Table altered.
+
+SQL> DESCRIBE DEPARTAMENTO
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CD                                        NOT NULL NUMBER(2)
+ D                                                  VARCHAR2(60)
+
+SQL> DROP TABLE DEPARTAMENTO
+  2  ;
+DROP TABLE DEPARTAMENTO
+           *
+ERROR at line 1:
+ORA-02449: unique/primary keys in table referenced by foreign keys 
+
+
+SQL> SYSTIMESTAMP(8);
+SP2-0734: unknown command beginning "SYSTIMESTA..." - rest of line ignored.
+SQL> SELECT
+  2  SYSTIMESTAMP(8);
+SYSTIMESTAMP(8)
+              *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT SYSTIMESTAMP(8)
+  2  FROM DUAL;
+
+SYSTIMESTAMP(8)                                                                 
+---------------------------------------------------------------------------     
+17-NOV-17 01.27.40.58266200 PM +00:00                                           
+
+SQL> SELECT CURRENT_TIMESTAMP
+  2  FROM DUAL;
+
+CURRENT_TIMESTAMP                                                               
+---------------------------------------------------------------------------     
+17-NOV-17 01.28.18.355392 PM +00:00                                             
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DAY DD-MM-YY')
+  2  FROM DUAL;
+
+TO_CHAR(SYSDATE,'DAYDD-MM-YY')                                                  
+---------------------------------------------                                   
+FRIDAY    17-11-17                                                              
+
+SQL> SELECT EXTRACT(YEAR FROM FI)
+  2  FROM PLAN_DOCENTE;
+
+EXTRACT(YEARFROMFI)                                                             
+-------------------                                                             
+               2005                                                             
+               2008                                                             
+               2009                                                             
+               2007                                                             
+               2009                                                             
+               2008                                                             
+               2006                                                             
+               2009                                                             
+               2009                                                             
+               2008                                                             
+               2009                                                             
+
+EXTRACT(YEARFROMFI)                                                             
+-------------------                                                             
+               2011                                                             
+               2008                                                             
+               2010                                                             
+               2010                                                             
+               2008                                                             
+               2010                                                             
+               2009                                                             
+               2010                                                             
+
+19 rows selected.
+
+SQL> SELECT EXTRACT(MONTH FROM FI)
+  2  FROM PLAN_DOCENTE;
+
+EXTRACT(MONTHFROMFI)                                                            
+--------------------                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+
+EXTRACT(MONTHFROMFI)                                                            
+--------------------                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   3                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+                   9                                                            
+
+19 rows selected.
+
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24-MI-SS') HORA;
+SELECT TO_CHAR(SYSDATE, 'HH24-MI-SS') HORA
+                                         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24-MIN-SS') HORA;
+SELECT TO_CHAR(SYSDATE, 'HH24-MIN-SS') HORA
+                                          *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24-MI-SS') HORA
+  2  FROM DUAL;
+
+HORA                                                                            
+--------                                                                        
+13-40-50                                                                        
+
+SQL> SELECT ROUNDS(SYSDATE - FI)
+  2  
+SQL> SELECT (SYSDATE - FI) DIAS
+  2  FROM PLAN_DOCENTE
+  3  WHERE CAS=11 AND DNI=8888
+  4  FROM DUAL;
+FROM DUAL
+*
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT (SYSDATE - FI) DIAS
+  2  FROM DUAL NATURAL JOIN PLAN_DOCENTE
+  3  WHERE CAS=11 AND DNI=8888
+  4  ;
+
+      DIAS                                                                      
+----------                                                                      
+2999.58017                                                                      
+
+SQL> SPOOL OFF
